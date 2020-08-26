@@ -1,0 +1,142 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Permissions;
+using System.Text;
+using System.Xml;
+
+namespace DiscogsContext.Models
+{
+   public class Master
+    {
+        #region Data definition
+        [Key]
+        public int MASTER_ID = -1;
+        public int MAIN_RELEASE_ID = -1;
+        public string TITLE = "";
+        public DateTime RELEASED = DateTime.MinValue; // only year is valid when it is a master record
+        public string NOTES = "";
+        public string DATA_QUALITY = "";
+
+        public List<Image> IMAGES = new List<Image>();
+        public List<Artist> ARTISTS = new List<Artist>(); // Note: no <extraartists> tag!
+        public List<string> GENRES = new List<string>();
+        public List<string> STYLES = new List<string>();
+        public List<Video> VIDEOS = new List<Video>();
+
+        public class Image
+        {
+            public int HEIGHT = -1;
+            public int WIDTH = -1;
+            public string TYPE = "";
+            public string URI = "";
+            public string URI150 = "";
+        }
+
+        public class Video
+        {
+            public bool EMBED = false;
+            public int DURATION_IN_SEC = 0;
+            public string SRC = "";
+            public string TITLE = "";
+            public string DESCRIPTION = "";
+        }
+
+        #endregion
+        #region Parse XML
+
+        public static Master ParseXML(XmlElement xMaster)
+        {
+            // -------------------------------------------------------------------------
+            System.Globalization.NumberFormatInfo nfi = null;
+            System.Globalization.CultureInfo culture = null;
+
+            nfi = new System.Globalization.CultureInfo("en-US", false).NumberFormat;
+            nfi.CurrencySymbol = "€";
+            nfi.CurrencyDecimalDigits = 2;
+            nfi.CurrencyDecimalSeparator = ".";
+            nfi.NumberGroupSeparator = "";
+            nfi.NumberDecimalSeparator = ".";
+
+            culture = new System.Globalization.CultureInfo("en-US");
+            // -------------------------------------------------------------------------
+
+
+            Master master = new Master();
+
+            master.MASTER_ID = Convert.ToInt32(xMaster.Attributes["id"].Value);
+            master.TITLE = xMaster["title"].InnerText;
+            if (xMaster["year"] != null)
+            {
+                DateTime.TryParse($"{xMaster["year"].InnerText}-01-01", out master.RELEASED);
+            }
+            if (xMaster["notes"] != null)
+            {
+                master.NOTES = xMaster["notes"].InnerText;
+            }
+            if (xMaster["main_release"] != null)
+            {
+                master.MAIN_RELEASE_ID = Convert.ToInt32(xMaster["main_release"].InnerText);
+            }
+            if (xMaster["data_quality"] != null)
+            {
+                master.DATA_QUALITY = xMaster["data_quality"].InnerText;
+            }
+
+            if (xMaster.GetElementsByTagName("images")[0] != null)
+            {
+                foreach (XmlNode xn in xMaster.GetElementsByTagName("images")[0].ChildNodes)
+                {
+                    XmlElement xImage = (XmlElement)xn;
+                    Image image = new Image();
+                    image.HEIGHT = Convert.ToInt32(xImage.Attributes["height"].Value);
+                    image.WIDTH = Convert.ToInt32(xImage.Attributes["width"].Value);
+                    image.TYPE = xImage.Attributes["type"].Value;
+                    image.URI = xImage.Attributes["uri"].Value;
+                    image.URI150 = xImage.Attributes["uri150"].Value;
+                    master.IMAGES.Add(image);
+                } //foreach
+            }
+
+            master.ARTISTS= Artist.ParseArtists(xMaster);
+
+            if (xMaster.GetElementsByTagName("genres")[0] != null)
+            {
+                foreach (XmlNode xn in xMaster.GetElementsByTagName("genres")[0].ChildNodes)
+                {
+                    XmlElement xGenre = (XmlElement)xn;
+                    master.GENRES.Add(xGenre.InnerText);
+                } //foreach
+            }
+            if (xMaster.GetElementsByTagName("styles")[0] != null)
+            {
+                foreach (XmlNode xn in xMaster.GetElementsByTagName("styles")[0].ChildNodes)
+                {
+                    XmlElement xStyle = (XmlElement)xn;
+                    master.STYLES.Add(xStyle.InnerText);
+                } //foreach
+            }
+
+            if (xMaster.GetElementsByTagName("videos")[0] != null)
+            {
+                foreach (XmlNode xn in xMaster.GetElementsByTagName("videos")[0].ChildNodes)
+                {
+                    XmlElement xVideo = (XmlElement)xn;
+                    Video video = new Video();
+                    video.EMBED = (xVideo.Attributes["embed"].Value == "true");
+                    video.DURATION_IN_SEC = Convert.ToInt32(xVideo.Attributes["duration"].Value);
+                    video.SRC = xVideo.Attributes["src"].Value;
+                    video.TITLE = xVideo["title"].InnerText;
+                    video.DESCRIPTION = xVideo["description"].InnerText;
+
+                    master.VIDEOS.Add(video);
+                } //foreach
+            }
+
+            return master;
+        }
+
+        #endregion
+
+    }
+}
