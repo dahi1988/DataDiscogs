@@ -13,12 +13,12 @@ namespace DiscogsContext.Models
     {
         #region Data definition
         [Key]
-        public int LABEL_ID = -1;
-        public string NAME = "";
-        public string CONTACTINFO = "";
-        public string PROFILE = "";
-        public string DATA_QUALITY = "";
-        public SubLabel PARENTLABEL = null;
+        public int LABEL_ID { get; set; }
+        public string NAME { get; set; }
+        public string CONTACTINFO { get; set; }
+        public string PROFILE { get; set; }
+        public string DATA_QUALITY { get; set; }
+        public SubLabel PARENTLABEL { get; set; }
 
         public List<Image> IMAGES = new List<Image>();
         public List<string> URLS = new List<string>();
@@ -26,35 +26,23 @@ namespace DiscogsContext.Models
 
         public class Image
         {
-            public int HEIGHT = -1;
-            public int WIDTH = -1;
-            public string TYPE = "";
-            public string URI = "";
-            public string URI150 = "";
+            public int HEIGHT { get; set; }
+            public int WIDTH { get; set; }
+            public string TYPE { get; set; }
+            public string URI { get; set; }
+            public string URI150 { get; set; }
         }
 
         public class SubLabel
         {
-            public int LABEL_ID = -1;
-            public string NAME = "";
+            [Key]
+            public int LABEL_ID { get; set; }
+            public string NAME { get; set; }
         }
         #endregion
         #region Parse XML
         public static Label ParseXML(XmlElement xLabel)
         {
-            // -------------------------------------------------------------------------
-            System.Globalization.NumberFormatInfo nfi = null;
-            System.Globalization.CultureInfo culture = null;
-
-            nfi = new System.Globalization.CultureInfo("en-US", false).NumberFormat;
-            nfi.CurrencySymbol = "€";
-            nfi.CurrencyDecimalDigits = 2;
-            nfi.CurrencyDecimalSeparator = ".";
-            nfi.NumberGroupSeparator = "";
-            nfi.NumberDecimalSeparator = ".";
-
-            culture = new System.Globalization.CultureInfo("en-US");
-            // -------------------------------------------------------------------------
 
             Label label = new Label();
 

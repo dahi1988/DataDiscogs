@@ -11,12 +11,12 @@ namespace DiscogsContext.Models
     {
         #region Data definition
         [Key]
-        public int MASTER_ID = -1;
-        public int MAIN_RELEASE_ID = -1;
-        public string TITLE = "";
+        public int MASTER_ID { get; set; }
+        public int MAIN_RELEASE_ID { get; set; }
+        public string TITLE { get; set; }
         public DateTime RELEASED = DateTime.MinValue; // only year is valid when it is a master record
-        public string NOTES = "";
-        public string DATA_QUALITY = "";
+        public string NOTES { get; set; }
+        public string DATA_QUALITY { get; set; }
 
         public List<Image> IMAGES = new List<Image>();
         public List<Artist> ARTISTS = new List<Artist>(); // Note: no <extraartists> tag!
@@ -26,20 +26,20 @@ namespace DiscogsContext.Models
 
         public class Image
         {
-            public int HEIGHT = -1;
-            public int WIDTH = -1;
-            public string TYPE = "";
-            public string URI = "";
-            public string URI150 = "";
+            public int HEIGHT { get; set; }
+            public int WIDTH { get; set; }
+            public string TYPE { get; set; }
+            public string URI { get; set; }
+            public string URI150 { get; set; }
         }
 
         public class Video
         {
-            public bool EMBED = false;
-            public int DURATION_IN_SEC = 0;
-            public string SRC = "";
-            public string TITLE = "";
-            public string DESCRIPTION = "";
+            public bool EMBED { get; set; }
+            public int DURATION_IN_SEC { get; set; }
+            public string SRC { get; set; }
+            public string TITLE { get; set; }
+            public string DESCRIPTION { get; set; }
         }
 
         #endregion
@@ -47,19 +47,7 @@ namespace DiscogsContext.Models
 
         public static Master ParseXML(XmlElement xMaster)
         {
-            // -------------------------------------------------------------------------
-            System.Globalization.NumberFormatInfo nfi = null;
-            System.Globalization.CultureInfo culture = null;
-
-            nfi = new System.Globalization.CultureInfo("en-US", false).NumberFormat;
-            nfi.CurrencySymbol = "€";
-            nfi.CurrencyDecimalDigits = 2;
-            nfi.CurrencyDecimalSeparator = ".";
-            nfi.NumberGroupSeparator = "";
-            nfi.NumberDecimalSeparator = ".";
-
-            culture = new System.Globalization.CultureInfo("en-US");
-            // -------------------------------------------------------------------------
+            
 
 
             Master master = new Master();

@@ -12,18 +12,19 @@ namespace DiscogsContext.Models
    public class Release
     {
         #region Data definition
-        [Key]
+        
         private static int SERIAL_FORMAT_ID = 0;
         private static int SERIAL_TRACK_ID = 0;
-        public int RELEASE_ID = -1;
-        public int? MASTER_ID = null;
-        public bool IS_MAIN_RELEASE = false;
-        public string STATUS = "";
-        public string TITLE = "";
-        public string COUNTRY = "";
+        [Key]
+        public int RELEASE_ID  { get; set; }
+        public int? MASTER_ID { get; set; }
+        public bool IS_MAIN_RELEASE { get; set; }
+        public string STATUS { get; set; }
+        public string TITLE { get; set; }
+        public string COUNTRY { get; set; }
         public DateTime RELEASED = DateTime.MinValue;
-        public string NOTES = "";
-        public string DATA_QUALITY = "";
+        public string NOTES { get; set; }
+        public string DATA_QUALITY { get; set; }
 
         public List<Image> IMAGES = new List<Image>();
         public List<Artist> ARTISTS = new List<Artist>();
@@ -39,74 +40,74 @@ namespace DiscogsContext.Models
 
         public class Image
         {
-            public int HEIGHT = -1;
-            public int WIDTH = -1;
-            public string TYPE = "";
-            public string URI = "";
-            public string URI150 = "";
+            public int HEIGHT { get; set; }
+            public int WIDTH { get; set; }
+            public string TYPE { get; set; }
+            public string URI { get; set; }
+            public string URI150 { get; set; }
         }
 
         public class Format
         {
-            public int FORMAT_ID = -1; // must self generate!
-            public string FORMAT_NAME = "";
-            public string FORMAT_TEXT = "";
+            public int FORMAT_ID { get; set; }
+            public string FORMAT_NAME { get; set; }
+            public string FORMAT_TEXT { get; set; }
             public int QUANTITY = 1;
             public List<FormatDescription> FORMAT_DESCRIPTIONS = new List<FormatDescription>();
 
             public class FormatDescription
             {
-                public string DESCRIPTION = "";
-                public int DESCRIPTION_ORDER = 1;
+                public string DESCRIPTION { get; set; }
+                public int DESCRIPTION_ORDER { get; set; }
             }
         }
 
         public class ReleaseLabel
         {
-            public int LABEL_ID = -1;
-            public string NAME = "";
-            public string CATNO = "";
+            public int LABEL_ID { get; set; }
+            public string NAME { get; set; }
+            public string CATNO { get; set; }
         }
 
         public class Track
         {
-            public int TRACK_ID = -1; // must self generate!
-            public int? MAIN_TRACK_ID = null; // if not null points to track where this is a subtrack of otherwise null
-            public bool HAS_SUBTRACKS = false;
-            public bool IS_SUBTRACK = false;
-            public int TRACKNUMBER = 1;
-            public string TITLE = "";
-            public string SUBTRACK_TITLE = "";
-            public string POSITION = "";
-            public int DURATION_IN_SEC = 0;
+            public int TRACK_ID { get; set; }
+            public int? MAIN_TRACK_ID { get; set; } // if not null points to track where this is a subtrack of otherwise null
+            public bool HAS_SUBTRACKS { get; set; }
+            public bool IS_SUBTRACK { get; set; }
+            public int TRACKNUMBER { get; set; }
+            public string TITLE { get; set; }
+            public string SUBTRACK_TITLE { get; set; }
+            public string POSITION { get; set; }
+            public int DURATION_IN_SEC { get; set; }
 
             public List<Artist> ARTISTS = new List<Artist>();
         }
 
         public class Identifier
         {
-            public string DESCRIPTION = "";
-            public string TYPE = "";
-            public string VALUE = "";
+            public string DESCRIPTION { get; set; }
+            public string TYPE { get; set; }
+            public string VALUE { get; set; }
         }
 
         public class Video
         {
-            public bool EMBED = false;
-            public int DURATION_IN_SEC = 0;
-            public string SRC = "";
-            public string TITLE = "";
-            public string DESCRIPTION = "";
+            public bool EMBED { get; set; }
+            public int DURATION_IN_SEC { get; set; }
+            public string SRC { get; set; }
+            public string TITLE { get; set; }
+            public string DESCRIPTION { get; set; }
         }
 
         public class Company
         {
-            public int COMPANY_ID = -1;
-            public string NAME = "";
-            public string CATNO = "";
-            public int ENTITY_TYPE = 0;
-            public string ENTITY_TYPE_NAME = "";
-            public string RESOURCE_URL = "";
+            public int COMPANY_ID { get; set; }
+            public string NAME { get; set; }
+            public string CATNO { get; set; }
+            public int ENTITY_TYPE { get; set; }
+            public string ENTITY_TYPE_NAME { get; set; }
+            public string RESOURCE_URL { get; set; }
         }
 
         #endregion
@@ -114,22 +115,8 @@ namespace DiscogsContext.Models
 
         public static Release ParseXML(XmlElement xRelease)
         {
-            // -------------------------------------------------------------------------
-            System.Globalization.NumberFormatInfo nfi = null;
-            System.Globalization.CultureInfo culture = null;
-
-            nfi = new System.Globalization.CultureInfo("en-US", false).NumberFormat;
-            nfi.CurrencySymbol = "€";
-            nfi.CurrencyDecimalDigits = 2;
-            nfi.CurrencyDecimalSeparator = ".";
-            nfi.NumberGroupSeparator = "";
-            nfi.NumberDecimalSeparator = ".";
-
-            culture = new System.Globalization.CultureInfo("en-US");
-            // -------------------------------------------------------------------------
-
-
-            Release release = new Release();
+            
+           Release release = new Release();
 
             release.RELEASE_ID = Convert.ToInt32(xRelease.Attributes["id"].Value);
             release.STATUS = xRelease.Attributes["status"].Value;
