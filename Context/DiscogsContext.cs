@@ -1,31 +1,28 @@
-﻿using DiscogsContext.Models;
+﻿using Context.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using System;
 
 namespace Context
 {
-   public  class DiscogsContext : DbContext 
+    public  class DiscogsContext : DbContext 
     {
-       
 
         public DiscogsContext(DbContextOptions<DiscogsContext> options)
-             : base(options)
+            : base(options)
         {
         }
         public DbSet<Artist> Artists { get; set; }
-        public DbSet<Artist> Members { get; set; }
-        public DbSet<Artist> Groups { get; set; }
-        public DbSet<Artist> Alias { get; set; }
-        public DbSet<Release> Releases { get; set; }
-        public DbSet<Label> Labels { get; set; }
-        public DbSet<Master> Masters { get; set; }
+        public DbSet<ArtistAlias> ArtistAliases {get; set;}
+        public DbSet<ArtistGroup> ArtistGroups {get; set;}
+        public DbSet<ArtistImage> ArtistImages {get; set;}
+        public DbSet<ArtistMember> ArtistMembers {get; set;}
+        
         public class DiscogsContextFactory : IDesignTimeDbContextFactory<DiscogsContext>
         {
             public DiscogsContext CreateDbContext(string[] args)
             {
                 var optionsBuilder = new DbContextOptionsBuilder<DiscogsContext>()
-                .UseSqlServer("Server=DESKTOP-5A54U6A;Database=DiscogsData;Trusted_Connection=True;MultipleActiveResultSets=true");
+                .UseSqlServer("Server=.;Database=Discogz;User Id=CasterStatsApp;Password=Test123=;");
                 return new DiscogsContext(optionsBuilder.Options);
             }
         }

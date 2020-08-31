@@ -7,9 +7,10 @@ using System.Security.Permissions;
 using System.Text;
 using System.Xml;
 
-namespace DiscogsContext.Models
+namespace Context.Models
 {
-   public class Label
+/*
+    public class Label
     {
         #region Data definition
         [Key]
@@ -114,4 +115,5 @@ namespace DiscogsContext.Models
         }
         #endregion
     }
+*/
 }

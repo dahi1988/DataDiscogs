@@ -5,9 +5,10 @@ using System.Security.Permissions;
 using System.Text;
 using System.Xml;
 
-namespace DiscogsContext.Models
+namespace Context.Models
 {
-   public class Master
+/*
+    public class Master
     {
         #region Data definition
         [Key]
@@ -127,4 +128,5 @@ namespace DiscogsContext.Models
         #endregion
 
     }
+*/
 }

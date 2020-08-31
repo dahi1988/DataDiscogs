@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,47 +9,55 @@ using System.Security.Policy;
 using System.Text;
 using System.Xml;
 
-namespace DiscogsContext.Models
+namespace Context.Models
 {
     public class Artist
     {
         #region Data definition
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ARTIST_ID { get; set; }
-        public string NAME { get; set; }
-        public string REALNAME { get; set; }
-        public string PROFILE { get; set; }
-        public string DATA_QUALITY { get; set; }
-
-        public List<Image> IMAGES { get; set; }
-        public string Urls { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string RealName { get; set; }
+        public string Profile { get; set; }
+        public string DataQuality { get; set; }
+        public string Urls {get; set;}
         [NotMapped]
-        public List<string> URLS
-        {
-            get;set;
-        }
-        public string NameVariations { get; set; }
-        [NotMapped]
-        public List<string> NAMEVARIATIONS { get; set; }
-        public List<Alias> ALIASES { get; set; }
-        public List<Member> MEMBERS { get; set; }
-        public List<Group> GROUPS { get; set; }
-        public Artist(){
-            this.IMAGES = new List<Image>();
-            this.URLS = new List<string>();
-            this.NAMEVARIATIONS = new List<string>();
-            this.ALIASES = new List<Alias>();
-            this.MEMBERS = new List<Member>();
-            this.GROUPS = new List<Group>();
-
+        public List<string> UrlsList { 
+            get {
+                if (string.IsNullOrEmpty(this.Urls)) {
+                    return new List<string>();
+                }
+                return this.Urls.Split(";").ToList();
             }
-        
+            set {
+                this.Urls = string.Join(';', value);
+            }
+        }
+        public string NameVariations {get; set;}
+        [NotMapped]
+        public List<string> NameVariationsList {
+            get {
+                if (string.IsNullOrEmpty(this.NameVariations)) {
+                    return new List<string>();
+                }
+                return this.NameVariations.Split(";").ToList();
+            }
+            set {
+                this.Urls = string.Join(';', value);
+            }
+        }
+
+        public List<ArtistImage> ArtistImages {get; set;}
+        public List<ArtistAlias> Aliases { get; set; }
+        public List<ArtistMember> MEMBERS { get; set; }
+
+        public List<ArtistGroup> GROUPS { get; set; }
+
         #endregion
         #region Parse XML
         public static Artist ParseXML(XmlElement xArtist)
         {
-
+            throw new NotImplementedException();
+/*
             Artist artist = new Artist();
 
             artist.ARTIST_ID = Convert.ToInt32(xArtist.GetElementsByTagName("id")[0].InnerText);
@@ -150,93 +159,9 @@ namespace DiscogsContext.Models
             }
 
             return artist;
-        }
-
-        public static List<Artist> Clone(List<Artist> list)
-        {
-            List<Artist> newList = new List<Artist>();
-            foreach (Artist a in list)
-            {
-                Artist artist = new Artist();
-                artist.ARTIST_ID = a.ARTIST_ID;
-                artist.NAME = a.NAME;
-                artist.REALNAME = a.REALNAME;
-                artist.PROFILE = a.PROFILE;
-                artist.IMAGES= a.IMAGES;
-                artist.MEMBERS = a.MEMBERS;
-                newList.Add(artist);
-            }
-
-            return newList;
-        }
-
-        public static List<Artist> ParseArtists(XmlElement xRelease)
-        {
-            List<Artist> artists = new List<Artist>();
-
-            if (xRelease.GetElementsByTagName("artists")[0] != null)
-            {
-                foreach (XmlNode xn in xRelease.GetElementsByTagName("artists")[0].ChildNodes)
-                {
-                    XmlElement xArtist = (XmlElement)xn;
-                    Artist artist = new Artist();
-                    artist.ARTIST_ID = Convert.ToInt32(xArtist["id"].InnerText);
-                    artist.NAME = xArtist["name"].InnerText;
-                    
-                    artists.Add(artist);
-                } //foreach
-            }
-            if (xRelease.GetElementsByTagName("extraartists")[0] != null)
-            {
-                foreach (XmlNode xn in xRelease.GetElementsByTagName("extraartists")[0].ChildNodes)
-                {
-                    XmlElement xArtist = (XmlElement)xn;
-                    Artist artist = new Artist();
-                    artist.ARTIST_ID = Convert.ToInt32(xArtist["id"].InnerText);
-                    artist.NAME = xArtist["name"].InnerText;
-                   
-
-
-                    artists.Add(artist);
-                } //foreach
-            }
-
-            return artists;
+*/
         }
         #endregion
 
     }
-    public class Image
-    {
-        [Key]
-        public int HEIGHT { get; set; }
-       
-        public int WIDTH { get; set; }
-        public string TYPE { get; set; }
-        public string URI { get; set; }
-        public string URI150 { get; set; }
-    }
-
-    public class Alias
-    {
-        [Key]
-        public int ARTIST_ID { get; set; }
-        public string NAME { get; set; }
-    }
-
-
-    public class Member
-    {
-        [Key]
-        public int ARTIST_ID { get; set; }
-        public string NAME { get; set; }
-    }
-
-    public class Group
-    {
-        [Key]
-        public int ARTIST_ID { get; set; }
-        public string NAME { get; set; }
-    }
-
 }

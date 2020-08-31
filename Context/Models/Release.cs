@@ -7,9 +7,10 @@ using System.Text;
 using System.Threading;
 using System.Xml;
 
-namespace DiscogsContext.Models
+namespace Context.Models
 {
-   public class Release
+/*   
+    public class Release
     {
         #region Data definition
         
@@ -435,4 +436,5 @@ namespace DiscogsContext.Models
         #endregion
 
     }
+*/
 }
