@@ -14,6 +14,9 @@ namespace Context
         {
         }
         public DbSet<Artist> Artists { get; set; }
+        public DbSet<Artist> Members { get; set; }
+        public DbSet<Artist> Groups { get; set; }
+        public DbSet<Artist> Alias { get; set; }
         public DbSet<Release> Releases { get; set; }
         public DbSet<Label> Labels { get; set; }
         public DbSet<Master> Masters { get; set; }

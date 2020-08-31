@@ -10,7 +10,7 @@ using System.Xml;
 
 namespace DiscogsContext.Models
 {
-  public  class Artist
+    public class Artist
     {
         #region Data definition
         [Key]
@@ -20,41 +20,30 @@ namespace DiscogsContext.Models
         public string REALNAME { get; set; }
         public string PROFILE { get; set; }
         public string DATA_QUALITY { get; set; }
+
+        public List<Image> IMAGES { get; set; }
+        public string Urls { get; set; }
+        [NotMapped]
+        public List<string> URLS
+        {
+            get;set;
+        }
+        public string NameVariations { get; set; }
+        [NotMapped]
+        public List<string> NAMEVARIATIONS { get; set; }
+        public List<Alias> ALIASES { get; set; }
+        public List<Member> MEMBERS { get; set; }
+        public List<Group> GROUPS { get; set; }
+        public Artist(){
+            this.IMAGES = new List<Image>();
+            this.URLS = new List<string>();
+            this.NAMEVARIATIONS = new List<string>();
+            this.ALIASES = new List<Alias>();
+            this.MEMBERS = new List<Member>();
+            this.GROUPS = new List<Group>();
+
+            }
         
-        public List<Image> IMAGES = new List<Image>();
-        public List<string> URLS = new List<string>();
-        public List<string> NAMEVARIATIONS = new List<string>();
-        public List<Alias> ALIASES = new List<Alias>();
-        public List<Member> MEMBERS = new List<Member>();
-        public List<Group> GROUPS = new List<Group>();
-
-        public class Image
-        {
-            public int HEIGHT { get; set; }
-            public int WIDTH { get; set; }
-            public string TYPE { get; set; }
-            public string URI { get; set; }
-            public string URI150 { get; set; }
-        }
-
-        public class Alias
-        {
-            public int ARTIST_ID { get; set; }
-            public string NAME { get; set; }
-        }
-
-
-        public class Member
-        {
-            public int ARTIST_ID { get; set; }
-            public string NAME { get; set; }
-        }
-
-        public class Group
-        {
-            public int ARTIST_ID { get; set; }
-            public string NAME { get; set; }
-        }
         #endregion
         #region Parse XML
         public static Artist ParseXML(XmlElement xArtist)
@@ -216,6 +205,38 @@ namespace DiscogsContext.Models
         }
         #endregion
 
+    }
+    public class Image
+    {
+        [Key]
+        public int HEIGHT { get; set; }
+       
+        public int WIDTH { get; set; }
+        public string TYPE { get; set; }
+        public string URI { get; set; }
+        public string URI150 { get; set; }
+    }
+
+    public class Alias
+    {
+        [Key]
+        public int ARTIST_ID { get; set; }
+        public string NAME { get; set; }
+    }
+
+
+    public class Member
+    {
+        [Key]
+        public int ARTIST_ID { get; set; }
+        public string NAME { get; set; }
+    }
+
+    public class Group
+    {
+        [Key]
+        public int ARTIST_ID { get; set; }
+        public string NAME { get; set; }
     }
 
 }

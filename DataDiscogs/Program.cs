@@ -18,7 +18,7 @@ namespace DataDiscogs
      public class Program
     {
         
-        private static string dataPath = "";
+        private static string dataPath = @"C:\Users\dahi1\Discogs Data";
        
 
         public static string DataPath
@@ -57,21 +57,8 @@ namespace DataDiscogs
         static void Main(string[] args)
         {
             
-             string discogsRemoteLastDate= null ;
-            string dbLastDate = null;
             ImportData import = new ImportData();
-            if (!string.IsNullOrEmpty(dbLastDate) && dbLastDate.Length == 8)
-            {
-                
-                if ( discogsRemoteLastDate != null && discogsRemoteLastDate.Length == 8)
-                {
-                    if (dbLastDate == discogsRemoteLastDate )
-                    {
-                        Console.WriteLine($"The last discogs export ({discogsRemoteLastDate}) is allready in the database. Exiting...");
-                        Environment.Exit(0);
-                    }
-                }
-            }
+           
 
                 import.Run();
             Console.WriteLine();
@@ -80,8 +67,7 @@ namespace DataDiscogs
             Console.ReadLine();
 
 
-            // exit with error 1 that something is gonne wrong
-            Environment.Exit(1);
+            
         }
 
 
