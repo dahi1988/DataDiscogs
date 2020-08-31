@@ -7,39 +7,39 @@ using System.Xml;
 
 namespace DataDiscogs
 {
-   public  class ImportData
+    public class ImportData
     {
         public void Run()
         {
-          
+
             string discogsLocal = Path.GetFileName(ArtistsXMLFile(Program.DataPath));
             if (string.IsNullOrEmpty(discogsLocal) || discogsLocal.Length < 16)
             {
                 // should never come here!
-                Console.WriteLine("discogs xml files not found.");
+                Console.WriteLine("Discogs xml files not found.");
                 Console.WriteLine("Exiting...");
                 Environment.Exit(1);
             }
             discogsLocal = discogsLocal.Substring(8, 8);
 
-            
+
             if (ConvertArtistsXML2TAB(Program.DataPath))
             {
-                
-                    Console.WriteLine("Importing ARTISTS Data");
-                    
+
+                Console.WriteLine("Importing ARTISTS Data");
+
                 Console.WriteLine("ARTIST Done.");
-               
+
             }
 
             // -------------------------------------------------------------------------------------------------------
 
-            
+
             if (ConvertLabelsXML2TAB(Program.DataPath))
             {
-                
-                    Console.WriteLine("Importing LABELS Data");
-                    Console.WriteLine("LABELS Done.");
+
+                Console.WriteLine("Importing LABELS Data");
+                Console.WriteLine("LABELS Done.");
 
 
             }
@@ -61,20 +61,8 @@ namespace DataDiscogs
 
             }
 
-            // -------------------------------------------------------------------------------------------------------
-
-
-
-            if (ConvertLabelsXML2TAB(Program.DataPath))
-            {
-                
-                    Console.WriteLine("Importing RELEASES TAB files into MySQL.");
-                    
-                }
-                    Console.WriteLine("LABELS Done.");
-                
-            }
-// -------------------------------------------------------------------------------------------------------
+        }
+        // -------------------------------------------------------------------------------------------------------
         #region Discogs ARTIST
 
         public string ArtistsXMLFile(string xmlPath)
@@ -82,7 +70,7 @@ namespace DataDiscogs
             List<string> lArtists = new List<string>();
             foreach (string filename in System.IO.Directory.GetFiles(xmlPath))
             {
-                if (Path.GetExtension(filename).ToUpper() == ".xml")
+                if (Path.GetExtension(filename).ToUpper() == ".XML")
                 {
                     string noExtension = Path.GetFileNameWithoutExtension(filename).ToUpper();
                     if (!(noExtension.Length > 8 && noExtension.Substring(0, 8) == "DISCOGS_"))
@@ -106,10 +94,10 @@ namespace DataDiscogs
             return lArtists[0];
         }
 
-        public bool ConvertArtistsXML2TAB(string basePath)
+        public   bool  ConvertArtistsXML2TAB(string basePath)
         {
-            string xmlFilename = ArtistsXMLFile(basePath);
-            xmlFilename = @"C:\Users\dahi1\Discogs Data\Artists.xml";
+            string xmlFilename = @"C:\Users\dahi1\Discogs Data\Artists.XML";
+            //xmlFilename = @"C:\Users\dahi1\Discogs Data\Artists.XML";
             if (!string.IsNullOrEmpty(xmlFilename))
             {
                 XmlSnibbitReader reader = new XmlSnibbitReader();
@@ -125,7 +113,7 @@ namespace DataDiscogs
 
 
                             blockCounter++;
-                            Console.Write($"\rxml Block: {blockCounter}");
+                            Console.Write($"\rXML Block: {blockCounter}");
                         } //while
                         Console.WriteLine();
 
@@ -153,7 +141,7 @@ namespace DataDiscogs
             List<string> lLabels = new List<string>();
             foreach (string filename in System.IO.Directory.GetFiles(xmlPath))
             {
-                if (Path.GetExtension(filename).ToUpper() == ".xml")
+                if (Path.GetExtension(filename).ToUpper() == ".XML")
                 {
                     string noExtension = Path.GetFileNameWithoutExtension(filename).ToUpper();
                     if (!(noExtension.Length > 8 && noExtension.Substring(0, 8) == "DISCOGS_"))
@@ -180,7 +168,7 @@ namespace DataDiscogs
         public bool ConvertLabelsXML2TAB(string basePath)
         {
             string xmlFilename = LabelsXMLFile(basePath);
-            xmlFilename = @"C:\Users\dahi1\Discogs Data\Lables.xml";
+            xmlFilename = @"C:\Users\dahi1\Discogs Data\Lables.XML";
             if (!string.IsNullOrEmpty(xmlFilename))
             {
                 XmlSnibbitReader reader = new XmlSnibbitReader();
@@ -195,7 +183,7 @@ namespace DataDiscogs
                             Label label = Label.ParseXML(XmlString2XmlElement(xmlBlock));
 
                             blockCounter++;
-                            Console.Write($"\rxml Block: {blockCounter}");
+                            Console.Write($"\rXML Block: {blockCounter}");
                         } //while
                         Console.WriteLine();
 
@@ -226,7 +214,7 @@ namespace DataDiscogs
             List<string> lMasters = new List<string>();
             foreach (string filename in System.IO.Directory.GetFiles(xmlPath))
             {
-                if (Path.GetExtension(filename).ToUpper() == ".xml")
+                if (Path.GetExtension(filename).ToUpper() == ".XML")
                 {
                     string noExtension = Path.GetFileNameWithoutExtension(filename).ToUpper();
                     if (!(noExtension.Length > 8 && noExtension.Substring(0, 8) == "DISCOGS_"))
@@ -253,7 +241,7 @@ namespace DataDiscogs
         public bool ConvertMastersXML2TAB(string basePath)
         {
             string xmlFilename = MastersXMLFile(basePath);
-            xmlFilename = @"C:\Users\dahi1\Discogs Data\Masters.xml";
+            xmlFilename = @"C:\Users\dahi1\Discogs Data\Masters.XML";
             if (!string.IsNullOrEmpty(xmlFilename))
             {
                 XmlSnibbitReader reader = new XmlSnibbitReader();
@@ -269,7 +257,7 @@ namespace DataDiscogs
                             Master master = Master.ParseXML(XmlString2XmlElement(xmlBlock));
 
                             blockCounter++;
-                            Console.Write($"\rxml Block: {blockCounter}");
+                            Console.Write($"\rXML Block: {blockCounter}");
                         } //while
                         Console.WriteLine();
 
@@ -300,7 +288,7 @@ namespace DataDiscogs
             List<string> lReleases = new List<string>();
             foreach (string filename in System.IO.Directory.GetFiles(xmlPath))
             {
-                if (Path.GetExtension(filename).ToUpper() == ".xml")
+                if (Path.GetExtension(filename).ToUpper() == ".XML")
                 {
                     string noExtension = Path.GetFileNameWithoutExtension(filename).ToUpper();
                     if (!(noExtension.Length > 8 && noExtension.Substring(0, 8) == "DISCOGS_"))
@@ -328,7 +316,7 @@ namespace DataDiscogs
         {
             string xmlFilename = ReleasesXMLFile(basePath);
 
-            xmlFilename = @"C:\Users\dahi1\Discogs Data\Releases.xml";
+            xmlFilename = @"C:\Users\dahi1\Discogs Data\Releases.XML";
             if (!string.IsNullOrEmpty(xmlFilename))
             {
                 XmlSnibbitReader reader = new XmlSnibbitReader();
@@ -345,7 +333,7 @@ namespace DataDiscogs
                             Release release = Release.ParseXML(XmlString2XmlElement(xmlBlock));
 
                             blockCounter++;
-                            Console.Write($"\rxml Block: {blockCounter}");
+                            Console.Write($"\rXML Block: {blockCounter}");
                         } //while
                         Console.WriteLine();
 
@@ -369,7 +357,7 @@ namespace DataDiscogs
         }
 
         #endregion
-         private static  XmlElement XmlString2XmlElement(string xml)
+        private  XmlElement XmlString2XmlElement(string xml)
         {
             // Create the instance of XmlDocument
             XmlDocument doc = new XmlDocument();

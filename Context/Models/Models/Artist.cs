@@ -20,7 +20,7 @@ namespace DiscogsContext.Models
         public string REALNAME { get; set; }
         public string PROFILE { get; set; }
         public string DATA_QUALITY { get; set; }
-
+        
         public List<Image> IMAGES = new List<Image>();
         public List<string> URLS = new List<string>();
         public List<string> NAMEVARIATIONS = new List<string>();
@@ -163,14 +163,56 @@ namespace DiscogsContext.Models
             return artist;
         }
 
-        internal static List<Artist> ParseArtists(XmlElement xMaster)
+        public static List<Artist> Clone(List<Artist> list)
         {
-            throw new NotImplementedException();
+            List<Artist> newList = new List<Artist>();
+            foreach (Artist a in list)
+            {
+                Artist artist = new Artist();
+                artist.ARTIST_ID = a.ARTIST_ID;
+                artist.NAME = a.NAME;
+                artist.REALNAME = a.REALNAME;
+                artist.PROFILE = a.PROFILE;
+                artist.IMAGES= a.IMAGES;
+                artist.MEMBERS = a.MEMBERS;
+                newList.Add(artist);
+            }
+
+            return newList;
         }
 
-        internal static List<Artist> Clone(List<Artist> aRTISTS)
+        public static List<Artist> ParseArtists(XmlElement xRelease)
         {
-            throw new NotImplementedException();
+            List<Artist> artists = new List<Artist>();
+
+            if (xRelease.GetElementsByTagName("artists")[0] != null)
+            {
+                foreach (XmlNode xn in xRelease.GetElementsByTagName("artists")[0].ChildNodes)
+                {
+                    XmlElement xArtist = (XmlElement)xn;
+                    Artist artist = new Artist();
+                    artist.ARTIST_ID = Convert.ToInt32(xArtist["id"].InnerText);
+                    artist.NAME = xArtist["name"].InnerText;
+                    
+                    artists.Add(artist);
+                } //foreach
+            }
+            if (xRelease.GetElementsByTagName("extraartists")[0] != null)
+            {
+                foreach (XmlNode xn in xRelease.GetElementsByTagName("extraartists")[0].ChildNodes)
+                {
+                    XmlElement xArtist = (XmlElement)xn;
+                    Artist artist = new Artist();
+                    artist.ARTIST_ID = Convert.ToInt32(xArtist["id"].InnerText);
+                    artist.NAME = xArtist["name"].InnerText;
+                   
+
+
+                    artists.Add(artist);
+                } //foreach
+            }
+
+            return artists;
         }
         #endregion
 

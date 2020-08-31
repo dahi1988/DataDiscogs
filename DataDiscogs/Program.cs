@@ -8,6 +8,7 @@ using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 using static System.Net.Mime.MediaTypeNames;
@@ -18,6 +19,8 @@ namespace DataDiscogs
     {
         
         private static string dataPath = "";
+       
+
         public static string DataPath
         {
             get
@@ -53,17 +56,45 @@ namespace DataDiscogs
 
         static void Main(string[] args)
         {
+            
+             string discogsRemoteLastDate= null ;
+            string dbLastDate = null;
             ImportData import = new ImportData();
+            if (!string.IsNullOrEmpty(dbLastDate) && dbLastDate.Length == 8)
+            {
+                
+                if ( discogsRemoteLastDate != null && discogsRemoteLastDate.Length == 8)
+                {
+                    if (dbLastDate == discogsRemoteLastDate )
+                    {
+                        Console.WriteLine($"The last discogs export ({discogsRemoteLastDate}) is allready in the database. Exiting...");
+                        Environment.Exit(0);
+                    }
+                }
+            }
 
-            import.Run();
-            Console.WriteLine($"Using (xml) data stored in '{DataPath}'.");
+                import.Run();
             Console.WriteLine();
 
+            Console.WriteLine("Press enter to close program.");
+            Console.ReadLine();
+
+
+            // exit with error 1 that something is gonne wrong
+            Environment.Exit(1);
         }
-        }
-          
+
+
+    }
 }
-    
+
+
+
+
+
+
+
+
 
 
 
