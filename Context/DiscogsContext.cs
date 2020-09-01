@@ -11,11 +11,20 @@ namespace Context
             : base(options)
         {
         }
+        #region Artist
         public DbSet<Artist> Artists { get; set; }
         public DbSet<ArtistAlias> ArtistAliases {get; set;}
         public DbSet<ArtistGroup> ArtistGroups {get; set;}
         public DbSet<ArtistImage> ArtistImages {get; set;}
         public DbSet<ArtistMember> ArtistMembers {get; set;}
+        #endregion Artist
+
+        #region Label
+        public DbSet<Label> Labels {get; set;}
+        public DbSet<LabelImage> LabelImages {get; set;}
+        public DbSet<ParentLabel> ParentLabels {get; set;}
+        public DbSet<SubLabel> SubLabels {get; set;}
+        #endregion Label
         
         public class DiscogsContextFactory : IDesignTimeDbContextFactory<DiscogsContext>
         {

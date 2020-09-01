@@ -10,7 +10,5 @@ namespace Context.Models
         public string Type { get; set; }
         public string Uri { get; set; }
         public string Uri150 { get; set; }
-
-        public List<ArtistImage> ArtistImages {get; set;}
     }
 }

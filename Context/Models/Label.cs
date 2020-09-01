@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
+using System.Linq;
 using System.Reflection.Metadata;
 using System.Security.Permissions;
 using System.Text;
@@ -9,42 +11,39 @@ using System.Xml;
 
 namespace Context.Models
 {
-/*
+
     public class Label
     {
         #region Data definition
-        [Key]
-        public int LABEL_ID { get; set; }
-        public string NAME { get; set; }
-        public string CONTACTINFO { get; set; }
-        public string PROFILE { get; set; }
-        public string DATA_QUALITY { get; set; }
-        public SubLabel PARENTLABEL { get; set; }
-
-        public List<Image> IMAGES = new List<Image>();
-        public List<string> URLS = new List<string>();
-        public List<SubLabel> SUBLABELS = new List<SubLabel>();
-
-        public class Image
-        {
-            public int HEIGHT { get; set; }
-            public int WIDTH { get; set; }
-            public string TYPE { get; set; }
-            public string URI { get; set; }
-            public string URI150 { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string ContactInfo { get; set; }
+        public string Profile { get; set; }
+        public string DataQuality { get; set; }
+        public string Urls {get; set;}
+        [NotMapped]
+        public List<string> UrlsList { 
+            get {
+                if (string.IsNullOrEmpty(this.Urls)) {
+                    return new List<string>();
+                }
+                return this.Urls.Split(";").ToList();
+            }
+            set {
+                this.Urls = string.Join(';', value);
+            }
         }
-
-        public class SubLabel
-        {
-            [Key]
-            public int LABEL_ID { get; set; }
-            public string NAME { get; set; }
-        }
+        public ParentLabel ParentLabel { get; set; }
+        public List<SubLabel> SubLabels {get; set;}
+        public List<LabelImage> LabelImages {get; set;}
+        
         #endregion
         #region Parse XML
         public static Label ParseXML(XmlElement xLabel)
         {
 
+            throw new NotImplementedException();
+/*
             Label label = new Label();
 
             label.LABEL_ID = Convert.ToInt32(xLabel.GetElementsByTagName("id")[0].InnerText);
@@ -112,8 +111,9 @@ namespace Context.Models
 
 
             return label;
+*/
         }
         #endregion
     }
-*/
+
 }
