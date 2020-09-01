@@ -27,15 +27,16 @@ namespace Context.Models
                 if (string.IsNullOrEmpty(this.Urls)) {
                     return new List<string>();
                 }
-                return this.Urls.Split(";").ToList();
+                return this.Urls.Split("|").ToList();
             }
             set {
-                this.Urls = string.Join(';', value);
+                this.Urls = string.Join('|', value);
             }
         }
         public ParentLabel ParentLabel { get; set; }
         public List<SubLabel> SubLabels {get; set;}
         public List<LabelImage> LabelImages {get; set;}
+        public string CatNo {get; set;}
         
         #endregion
         #region Parse XML

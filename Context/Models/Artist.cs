@@ -26,10 +26,10 @@ namespace Context.Models
                 if (string.IsNullOrEmpty(this.Urls)) {
                     return new List<string>();
                 }
-                return this.Urls.Split(";").ToList();
+                return this.Urls.Split("|").ToList();
             }
             set {
-                this.Urls = string.Join(';', value);
+                this.Urls = string.Join('|', value);
             }
         }
         public string NameVariations {get; set;}
@@ -39,19 +39,22 @@ namespace Context.Models
                 if (string.IsNullOrEmpty(this.NameVariations)) {
                     return new List<string>();
                 }
-                return this.NameVariations.Split(";").ToList();
+                return this.NameVariations.Split("|").ToList();
             }
             set {
-                this.NameVariations = string.Join(';', value);
+                this.NameVariations = string.Join('|', value);
             }
         }
 
         public List<ArtistImage> ArtistImages {get; set;}
         public List<ArtistAlias> Aliases { get; set; }
         public List<ArtistMember> MEMBERS { get; set; }
-
         public List<ArtistGroup> GROUPS { get; set; }
 
+        public string Anv {get; set;}
+        public string Join {get; set;}
+        public string Role {get; set;}
+        public string Tracks {get; set;}
         #endregion
         #region Parse XML
         public static Artist ParseXML(XmlElement xArtist)

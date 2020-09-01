@@ -33,6 +33,17 @@ namespace Context
         public DbSet<MasterArtist> MasterArtists {get; set;}
         public DbSet<MasterVideo> MasterVideos {get; set;}
         #endregion Master
+        #region Release
+        public DbSet<Release> Releases {get; set;}
+        public DbSet<ReleaseImage> ReleaseImages {get; set;}
+        public DbSet<ReleaseArtist> ReleaseArtists {get; set;}
+        public DbSet<ReleaseExtraArtist> ReleaseExtraArtists {get; set;}
+        public DbSet<ReleaseFormat> ReleaseFormats {get; set;}
+        public DbSet<Track> Tracks {get; set;}
+        public DbSet<ReleaseIdentifier> ReleaseIdentifiers {get; set;}
+        public DbSet<ReleaseVideo> ReleaseVideos {get; set;}
+        public DbSet<Company> Companies {get; set;}
+        #endregion Release
         
         public class DiscogsContextFactory : IDesignTimeDbContextFactory<DiscogsContext>
         {

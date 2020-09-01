@@ -1,9 +1,9 @@
 namespace Context.Models
 {
-    public class MasterArtist
+    public class ReleaseArtist
     {
         public int Id {get; set;}
+        public Release Release {get; set;}
         public Artist Artist {get; set;}
-        public Master Master {get; set;}
     }
 }

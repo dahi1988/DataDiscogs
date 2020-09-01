@@ -24,10 +24,10 @@ namespace Context.Models
                 if (string.IsNullOrEmpty(this.Genres)) {
                     return new List<string>();
                 }
-                return this.Genres.Split(";").ToList();
+                return this.Genres.Split("|").ToList();
             }
             set {
-                this.Genres = string.Join(';', value);
+                this.Genres = string.Join('|', value);
             }
         }
         public string Styles {get; set;}
@@ -37,10 +37,10 @@ namespace Context.Models
                 if (string.IsNullOrEmpty(this.Styles)) {
                     return new List<string>();
                 }
-                return this.Styles.Split(";").ToList();
+                return this.Styles.Split("|").ToList();
             }
             set {
-                this.Styles = string.Join(';', value);
+                this.Styles = string.Join('|', value);
             }
         }
         public int? Year {get; set;}
