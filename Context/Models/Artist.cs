@@ -42,7 +42,7 @@ namespace Context.Models
                 return this.NameVariations.Split(";").ToList();
             }
             set {
-                this.Urls = string.Join(';', value);
+                this.NameVariations = string.Join(';', value);
             }
         }
 

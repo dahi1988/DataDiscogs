@@ -1,56 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Security.Permissions;
 using System.Text;
 using System.Xml;
 
 namespace Context.Models
 {
-/*
+
     public class Master
     {
         #region Data definition
-        [Key]
-        public int MASTER_ID { get; set; }
-        public int MAIN_RELEASE_ID { get; set; }
-        public string TITLE { get; set; }
-        public DateTime RELEASED = DateTime.MinValue; // only year is valid when it is a master record
-        public string NOTES { get; set; }
-        public string DATA_QUALITY { get; set; }
-
-        public List<Image> IMAGES = new List<Image>();
-        public List<Artist> ARTISTS = new List<Artist>(); // Note: no <extraartists> tag!
-        public List<string> GENRES = new List<string>();
-        public List<string> STYLES = new List<string>();
-        public List<Video> VIDEOS = new List<Video>();
-
-        public class Image
-        {
-            public int HEIGHT { get; set; }
-            public int WIDTH { get; set; }
-            public string TYPE { get; set; }
-            public string URI { get; set; }
-            public string URI150 { get; set; }
+        public int Id { get; set; }
+        public int? MainRelease { get; set; }
+        public List<MasterImage> Images {get; set;}
+        public List<MasterArtist> Artists {get; set;}
+        public string Genres {get; set;}
+        [NotMapped]
+        public List<string> GenresList {
+            get {
+                if (string.IsNullOrEmpty(this.Genres)) {
+                    return new List<string>();
+                }
+                return this.Genres.Split(";").ToList();
+            }
+            set {
+                this.Genres = string.Join(';', value);
+            }
         }
-
-        public class Video
-        {
-            public bool EMBED { get; set; }
-            public int DURATION_IN_SEC { get; set; }
-            public string SRC { get; set; }
-            public string TITLE { get; set; }
-            public string DESCRIPTION { get; set; }
+        public string Styles {get; set;}
+        [NotMapped]
+        public List<string> StylesList {
+            get {
+                if (string.IsNullOrEmpty(this.Styles)) {
+                    return new List<string>();
+                }
+                return this.Styles.Split(";").ToList();
+            }
+            set {
+                this.Styles = string.Join(';', value);
+            }
         }
-
+        public int? Year {get; set;}
+        public string Title { get; set; }
+        public string DataQuality { get; set; }
+        public string Notes { get; set; }
+        public List<MasterVideo> Videos {get; set;}
         #endregion
         #region Parse XML
 
         public static Master ParseXML(XmlElement xMaster)
         {
-            
-
-
+            throw new NotImplementedException();
+/*
             Master master = new Master();
 
             master.MASTER_ID = Convert.ToInt32(xMaster.Attributes["id"].Value);
@@ -123,10 +127,10 @@ namespace Context.Models
             }
 
             return master;
+*/
         }
 
         #endregion
 
     }
-*/
 }

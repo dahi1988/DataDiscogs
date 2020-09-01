@@ -11,6 +11,8 @@ namespace Context
             : base(options)
         {
         }
+        public DbSet<Image> Images {get; set;}
+        public DbSet<Video> Videos {get; set;}
         #region Artist
         public DbSet<Artist> Artists { get; set; }
         public DbSet<ArtistAlias> ArtistAliases {get; set;}
@@ -25,6 +27,12 @@ namespace Context
         public DbSet<ParentLabel> ParentLabels {get; set;}
         public DbSet<SubLabel> SubLabels {get; set;}
         #endregion Label
+        #region Master
+        public DbSet<Master> Masters {get; set;}
+        public DbSet<MasterImage> MasterImages {get; set;}
+        public DbSet<MasterArtist> MasterArtists {get; set;}
+        public DbSet<MasterVideo> MasterVideos {get; set;}
+        #endregion Master
         
         public class DiscogsContextFactory : IDesignTimeDbContextFactory<DiscogsContext>
         {
