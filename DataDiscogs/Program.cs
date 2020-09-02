@@ -1,15 +1,5 @@
-﻿using DiscogsContext.Models;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 
 using static System.Net.Mime.MediaTypeNames;
 
@@ -18,7 +8,7 @@ namespace DataDiscogs
      public class Program
     {
         
-        private static string dataPath = @"C:\Users\dahi1\Discogs Data";
+        private static string dataPath = "/home/snyssen/Downloads/";
        
 
         public static string DataPath
@@ -58,7 +48,7 @@ namespace DataDiscogs
         {
             
             ImportData import = new ImportData();
-           
+
 
                 import.Run();
             Console.WriteLine();

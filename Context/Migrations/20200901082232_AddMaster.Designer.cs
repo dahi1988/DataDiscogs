@@ -4,14 +4,16 @@ using Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Context.Migrations
 {
     [DbContext(typeof(DiscogsContext))]
-    partial class DiscogsContextModelSnapshot : ModelSnapshot
+    [Migration("20200901082232_AddMaster")]
+    partial class AddMaster
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,13 +28,7 @@ namespace Context.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Anv")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("DataQuality")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Join")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -45,12 +41,6 @@ namespace Context.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RealName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tracks")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Urls")
@@ -143,35 +133,6 @@ namespace Context.Migrations
                     b.ToTable("ArtistMembers");
                 });
 
-            modelBuilder.Entity("Context.Models.Company", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CatNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("EntityType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ReleaseId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ResourceUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReleaseId");
-
-                    b.ToTable("Companies");
-                });
-
             modelBuilder.Entity("Context.Models.Image", b =>
                 {
                     b.Property<int>("Id")
@@ -206,9 +167,6 @@ namespace Context.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CatNo")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ContactInfo")
                         .HasColumnType("nvarchar(max)");
 
@@ -221,15 +179,10 @@ namespace Context.Migrations
                     b.Property<string>("Profile")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ReleaseId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Urls")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ReleaseId");
 
                     b.ToTable("Labels");
                 });
@@ -296,15 +249,25 @@ namespace Context.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ArtistId")
-                        .HasColumnType("int");
+                    b.Property<string>("Anv")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Join")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("MasterId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("ArtistId");
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tracks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("MasterId");
 
@@ -376,193 +339,6 @@ namespace Context.Migrations
                     b.ToTable("ParentLabels");
                 });
 
-            modelBuilder.Entity("Context.Models.Release", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DataQuality")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Genres")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsMainRelease")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("MasterId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("Released")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Styles")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MasterId");
-
-                    b.ToTable("Releases");
-                });
-
-            modelBuilder.Entity("Context.Models.ReleaseArtist", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ArtistId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ReleaseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArtistId");
-
-                    b.HasIndex("ReleaseId");
-
-                    b.ToTable("ReleaseArtists");
-                });
-
-            modelBuilder.Entity("Context.Models.ReleaseExtraArtist", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ArtistId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ReleaseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArtistId");
-
-                    b.HasIndex("ReleaseId");
-
-                    b.ToTable("ReleaseExtraArtists");
-                });
-
-            modelBuilder.Entity("Context.Models.ReleaseFormat", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Descriptions")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ReleaseId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReleaseId");
-
-                    b.ToTable("ReleaseFormats");
-                });
-
-            modelBuilder.Entity("Context.Models.ReleaseIdentifier", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ReleaseId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReleaseId");
-
-                    b.ToTable("ReleaseIdentifiers");
-                });
-
-            modelBuilder.Entity("Context.Models.ReleaseImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ReleaseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
-
-                    b.HasIndex("ReleaseId");
-
-                    b.ToTable("ReleaseImages");
-                });
-
-            modelBuilder.Entity("Context.Models.ReleaseVideo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ReleaseId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("VideoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReleaseId");
-
-                    b.HasIndex("VideoId");
-
-                    b.ToTable("ReleaseVideos");
-                });
-
             modelBuilder.Entity("Context.Models.SubLabel", b =>
                 {
                     b.Property<int>("Id")
@@ -581,32 +357,6 @@ namespace Context.Migrations
                     b.HasIndex("LabelId");
 
                     b.ToTable("SubLabels");
-                });
-
-            modelBuilder.Entity("Context.Models.Track", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Position")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ReleaseId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReleaseId");
-
-                    b.ToTable("Tracks");
                 });
 
             modelBuilder.Entity("Context.Models.Video", b =>
@@ -668,20 +418,6 @@ namespace Context.Migrations
                         .HasForeignKey("ArtistId");
                 });
 
-            modelBuilder.Entity("Context.Models.Company", b =>
-                {
-                    b.HasOne("Context.Models.Release", null)
-                        .WithMany("Companies")
-                        .HasForeignKey("ReleaseId");
-                });
-
-            modelBuilder.Entity("Context.Models.Label", b =>
-                {
-                    b.HasOne("Context.Models.Release", null)
-                        .WithMany("Labels")
-                        .HasForeignKey("ReleaseId");
-                });
-
             modelBuilder.Entity("Context.Models.LabelImage", b =>
                 {
                     b.HasOne("Context.Models.Image", "Image")
@@ -695,10 +431,6 @@ namespace Context.Migrations
 
             modelBuilder.Entity("Context.Models.MasterArtist", b =>
                 {
-                    b.HasOne("Context.Models.Artist", "Artist")
-                        .WithMany()
-                        .HasForeignKey("ArtistId");
-
                     b.HasOne("Context.Models.Master", "Master")
                         .WithMany("Artists")
                         .HasForeignKey("MasterId");
@@ -735,83 +467,11 @@ namespace Context.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Context.Models.Release", b =>
-                {
-                    b.HasOne("Context.Models.Master", "Master")
-                        .WithMany()
-                        .HasForeignKey("MasterId");
-                });
-
-            modelBuilder.Entity("Context.Models.ReleaseArtist", b =>
-                {
-                    b.HasOne("Context.Models.Artist", "Artist")
-                        .WithMany()
-                        .HasForeignKey("ArtistId");
-
-                    b.HasOne("Context.Models.Release", "Release")
-                        .WithMany("Artists")
-                        .HasForeignKey("ReleaseId");
-                });
-
-            modelBuilder.Entity("Context.Models.ReleaseExtraArtist", b =>
-                {
-                    b.HasOne("Context.Models.Artist", "Artist")
-                        .WithMany()
-                        .HasForeignKey("ArtistId");
-
-                    b.HasOne("Context.Models.Release", "Release")
-                        .WithMany("ExtraArtists")
-                        .HasForeignKey("ReleaseId");
-                });
-
-            modelBuilder.Entity("Context.Models.ReleaseFormat", b =>
-                {
-                    b.HasOne("Context.Models.Release", null)
-                        .WithMany("Formats")
-                        .HasForeignKey("ReleaseId");
-                });
-
-            modelBuilder.Entity("Context.Models.ReleaseIdentifier", b =>
-                {
-                    b.HasOne("Context.Models.Release", null)
-                        .WithMany("Identifiers")
-                        .HasForeignKey("ReleaseId");
-                });
-
-            modelBuilder.Entity("Context.Models.ReleaseImage", b =>
-                {
-                    b.HasOne("Context.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
-                    b.HasOne("Context.Models.Release", "Release")
-                        .WithMany("Images")
-                        .HasForeignKey("ReleaseId");
-                });
-
-            modelBuilder.Entity("Context.Models.ReleaseVideo", b =>
-                {
-                    b.HasOne("Context.Models.Release", "Release")
-                        .WithMany("Videos")
-                        .HasForeignKey("ReleaseId");
-
-                    b.HasOne("Context.Models.Video", "Video")
-                        .WithMany()
-                        .HasForeignKey("VideoId");
-                });
-
             modelBuilder.Entity("Context.Models.SubLabel", b =>
                 {
                     b.HasOne("Context.Models.Label", "Label")
                         .WithMany("SubLabels")
                         .HasForeignKey("LabelId");
-                });
-
-            modelBuilder.Entity("Context.Models.Track", b =>
-                {
-                    b.HasOne("Context.Models.Release", null)
-                        .WithMany("TrackList")
-                        .HasForeignKey("ReleaseId");
                 });
 #pragma warning restore 612, 618
         }

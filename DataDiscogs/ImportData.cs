@@ -1,9 +1,7 @@
-﻿using DiscogsContext.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml;
 
 namespace DataDiscogs
@@ -150,6 +148,7 @@ namespace DataDiscogs
                             Console.WriteLine("Error while adding to DB");
                             Console.WriteLine(e);
                         }
+                .UseSqlServer("Server=.;Database=Discogz;User Id=CasterStatsApp;Password=Test123=;");
 
                     }
                 }
@@ -157,6 +156,10 @@ namespace DataDiscogs
             }
             return false;
         }
+        
+    }
+    return false;
+}
 
         #endregion
         #region Discogs LABEL

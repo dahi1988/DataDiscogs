@@ -1,121 +1,74 @@
-﻿using System;
+﻿using System.Reflection;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Reflection.Metadata;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading;
 using System.Xml;
 
-namespace DiscogsContext.Models
+namespace Context.Models
 {
-   public class Release
+   
+    public class Release
     {
         #region Data definition
-        
-        private static int SERIAL_FORMAT_ID = 0;
-        private static int SERIAL_TRACK_ID = 0;
-        [Key]
-        public int RELEASE_ID  { get; set; }
-        public int? MASTER_ID { get; set; }
-        public bool IS_MAIN_RELEASE { get; set; }
-        public string STATUS { get; set; }
-        public string TITLE { get; set; }
-        public string COUNTRY { get; set; }
-        public DateTime RELEASED = DateTime.MinValue;
-        public string NOTES { get; set; }
-        public string DATA_QUALITY { get; set; }
-
-        public List<Image> IMAGES = new List<Image>();
-        public List<Artist> ARTISTS = new List<Artist>();
-        public List<string> GENRES = new List<string>();
-        public List<string> STYLES = new List<string>();
-        public List<Format> FORMATS = new List<Format>();
-        public List<ReleaseLabel> RELEASELABELS = new List<ReleaseLabel>();
-        public List<Track> TRACKS = new List<Track>();
-        public List<Identifier> IDENTIFIERS = new List<Identifier>();
-        public List<Video> VIDEOS = new List<Video>();
-        public List<Company> COMPANIES = new List<Company>();
-        
-
-        public class Image
-        {
-            public int HEIGHT { get; set; }
-            public int WIDTH { get; set; }
-            public string TYPE { get; set; }
-            public string URI { get; set; }
-            public string URI150 { get; set; }
-        }
-
-        public class Format
-        {
-            public int FORMAT_ID { get; set; }
-            public string FORMAT_NAME { get; set; }
-            public string FORMAT_TEXT { get; set; }
-            public int QUANTITY = 1;
-            public List<FormatDescription> FORMAT_DESCRIPTIONS = new List<FormatDescription>();
-
-            public class FormatDescription
-            {
-                public string DESCRIPTION { get; set; }
-                public int DESCRIPTION_ORDER { get; set; }
+        public int Id {get; set;}
+        public string Status {get; set;}
+        public List<ReleaseImage> Images {get; set;}
+        public List<ReleaseArtist> Artists {get; set;}
+        public string Title {get; set;}
+        public List<Label> Labels {get; set;}
+        public List<ReleaseExtraArtist> ExtraArtists {get; set;}
+        public List<ReleaseFormat> Formats {get; set;}
+        public string Genres {get; set;}
+        [NotMapped]
+        public List<string> GenresList {
+            get {
+                if (string.IsNullOrEmpty(this.Genres)) {
+                    return new List<string>();
+                }
+                return this.Genres.Split("|").ToList();
+            }
+            set {
+                this.Genres = string.Join('|', value);
             }
         }
-
-        public class ReleaseLabel
-        {
-            public int LABEL_ID { get; set; }
-            public string NAME { get; set; }
-            public string CATNO { get; set; }
+        public string Styles {get; set;}
+        [NotMapped]
+        public List<string> StylesList {
+            get {
+                if (string.IsNullOrEmpty(this.Styles)) {
+                    return new List<string>();
+                }
+                return this.Styles.Split("|").ToList();
+            }
+            set {
+                this.Styles = string.Join('|', value);
+            }
         }
-
-        public class Track
-        {
-            public int TRACK_ID { get; set; }
-            public int? MAIN_TRACK_ID { get; set; } // if not null points to track where this is a subtrack of otherwise null
-            public bool HAS_SUBTRACKS { get; set; }
-            public bool IS_SUBTRACK { get; set; }
-            public int TRACKNUMBER { get; set; }
-            public string TITLE { get; set; }
-            public string SUBTRACK_TITLE { get; set; }
-            public string POSITION { get; set; }
-            public int DURATION_IN_SEC { get; set; }
-
-            public List<Artist> ARTISTS = new List<Artist>();
-        }
-
-        public class Identifier
-        {
-            public string DESCRIPTION { get; set; }
-            public string TYPE { get; set; }
-            public string VALUE { get; set; }
-        }
-
-        public class Video
-        {
-            public bool EMBED { get; set; }
-            public int DURATION_IN_SEC { get; set; }
-            public string SRC { get; set; }
-            public string TITLE { get; set; }
-            public string DESCRIPTION { get; set; }
-        }
-
-        public class Company
-        {
-            public int COMPANY_ID { get; set; }
-            public string NAME { get; set; }
-            public string CATNO { get; set; }
-            public int ENTITY_TYPE { get; set; }
-            public string ENTITY_TYPE_NAME { get; set; }
-            public string RESOURCE_URL { get; set; }
-        }
+        public string Country {get; set;}
+        [DataType(DataType.Date)]
+        public DateTime? Released {get; set;}
+        public string Notes {get; set;}
+        public string DataQuality {get; set;}
+        public Master Master {get; set;}
+        public bool IsMainRelease {get; set;}
+        public List<Track> TrackList {get; set;}
+        public List<ReleaseIdentifier> Identifiers {get; set;}
+        public List<ReleaseVideo> Videos {get; set;}
+        public List<Company> Companies {get; set;}
 
         #endregion
         #region Parse XML
 
         public static Release ParseXML(XmlElement xRelease)
         {
-            
+            throw new NotImplementedException();
+/*
            Release release = new Release();
 
             release.RELEASE_ID = Convert.ToInt32(xRelease.Attributes["id"].Value);
@@ -406,33 +359,10 @@ namespace DiscogsContext.Models
             }
 
             return release;
+*/
         }
-
-        /// <summary>
-        /// returns duration in seconds
-        /// </summary>
-        private static int ParseDuration(string d)
-        {
-            if (d.Contains(":"))
-            {
-                string[] duration = d.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
-                int min = 0;
-                if (duration.Length >= 1)
-                {
-                    int.TryParse(duration[0], out min);
-                }
-                int sec = 0;
-                if (duration.Length >= 2)
-                {
-                    int.TryParse(duration[1], out sec);
-                }
-                return min * 60 + sec;
-            }
-
-            return 0;
-        }
-
         #endregion
 
     }
+
 }
